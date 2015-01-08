@@ -1,0 +1,47 @@
+  $("#refresh").click(function(){
+    console.log("refresh");
+    url = "http://10.0.15.40:8080/api/v1/user_locations/get_last_kown_locations_of_all_phones";
+    $.getJSON(url, function(data){
+        console.log(data);
+     })
+$.ajax({
+  url: "http://10.0.15.40:8080/api/v1/user_locations/get_last_kown_locations_of_all_phones?format=json",
+  dataType: 'json',
+  jsonpCallback: 'MyJSONPCallback', // specify the callback name if you're hard-coding it
+  success: function(data){
+    // we make a successful JSONP call!
+    console.log(data)
+  }
+});
+    var retval = createCORSRequest('GET', url);
+    if (!retval) {
+  throw new Error('CORS not supported');
+  }
+    retval.send();
+    console.log("output"+ retval);
+    console.log(retval.responseText);
+  });
+});
+function createCORSRequest(method, url) {
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+
+    // Check if the XMLHttpRequest object has a "withCredentials" property.
+    // "withCredentials" only exists on XMLHTTPRequest2 objects.
+    xhr.open(method, url, true);
+
+  } else if (typeof XDomainRequest != "undefined") {
+
+    // Otherwise, check if XDomainRequest.
+    // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
+    xhr = new XDomainRequest();
+    xhr.open(method, url);
+
+  } else {
+
+    // Otherwise, CORS is not supported by the browser.
+    xhr = null;
+
+  }
+  return xhr;
+}
